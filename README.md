@@ -1,6 +1,6 @@
 # Project Guidelines
 
-Welcome to the project! Please follow the instructions below to ensure smooth collaboration and code quality.
+Welcome to the project! Please follow the instructions below to ensure smooth collaboration, code quality, and organization of your work.
 
 ## Branching Strategy
 
@@ -12,11 +12,28 @@ Welcome to the project! Please follow the instructions below to ensure smooth co
    - Create a secondary branch for your changes from your personal branch.
    - Example: If your main branch is `main-abdullah`, create a secondary branch like `feature-abdullah`.
 
+## Folder Structure and Code Organization
+
+1. **Week-Specific Folders**:
+   - For each week's task, create a specific folder inside the relevant week folder.
+   - Example: For a Week 1 task, create a folder structure like `Week1/Practice Code/Abdullah`.
+   - Place all your code and related files for the task within this folder.
+
+2. **Example Folder Structure**:
+   - If you are working on your Week 1 task, your folder structure should look like this:
+     ```
+     Week1/
+       └── Practice Code/
+           └── Abdullah/
+               └── <Your Code and Files>
+     ```
+   - This ensures that everyone's work is organized and easy to navigate.
+
 ## Commit and Push Code
 
 1. **Committing Changes**:
    - Commit your changes with clear and descriptive messages.
-   - Example: `Added feature X to improve functionality`
+   - Example: `Added Week 1 task for Abdullah`
 
 2. **Pushing Changes**:
    - Push your commits to your secondary branch.
@@ -39,6 +56,7 @@ Welcome to the project! Please follow the instructions below to ensure smooth co
 ## Summary
 
 - **Branch Naming**: Use `main-<name>` for your main branch and create secondary branches for your changes.
+- **Folder Structure**: Organize your code in a week-specific folder (`WeekX/Practice Code/<Your Name>`).
 - **Work**: Make changes in your secondary branch.
 - **Push**: Push changes to your secondary branch.
 - **Pull Request**: Create a PR from your secondary branch to `main-<name>`.
