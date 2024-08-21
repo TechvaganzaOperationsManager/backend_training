@@ -1,6 +1,6 @@
-# Project Guidelines
+# Collaboration Guidelines
 
-Welcome to the project! Please follow the instructions below to ensure smooth collaboration, code quality, and organization of your work.
+Welcome to the Techvaganza! Please follow the instructions below to ensure smooth collaboration, code quality, and organization of your work.
 
 ## Branching Strategy
 
