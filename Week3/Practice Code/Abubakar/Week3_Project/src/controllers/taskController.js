@@ -71,7 +71,7 @@ export const getAllTasks = (req, res) => {
         const tasks = readTasks();
         const newTask = {
             //id: uuidv4(),
-            //id :req.body.id,
+            id :req.body.id,
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
@@ -93,7 +93,7 @@ export const getAllTasks = (req, res) => {
   export const updateTask = (req ,res) => {
     const tasks = readTasks();
     const updateTaskId = Number(req.params.id);
-    const task = tasks.find(t => t.id === updateTaskId);
+    let task = tasks.find(t => t.id === updateTaskId);
     // If Id is Invalid
     // If No Task Found 
     
@@ -103,15 +103,22 @@ export const getAllTasks = (req, res) => {
       .json({msg : `A task By this ${updateTaskId} was not Found`});
     }
 
-    task.title = req.body.title;
-    task.description = req.body.description;
-    task.status = req.body.status;
-    task.priority = req.body.priority;
-    // Generate Updated At too.
-    
+    // task.title = req.body.title || task.title;
+    // task.description = req.body.description || task.description;
+    // task.status = req.body.status || task.status;
+    // task.priority = req.body.priority || task.priority;
+
+    /* {
+        title: "Lucifer",
+        created_at: "2024-08-22T14:27:57.980Z",
+    } */
+
+    task = { ...task, ...req.body, id: task.id };
+
+    task.updated_at = new Date().toISOString();
+  
     writeTasks (tasks);
     return res.send(task)
-    
   }
 
 
@@ -130,18 +137,9 @@ export const getAllTasks = (req, res) => {
   // }
  
 
-//   export const updateTask = (req, res) => {
-//     const tasks = readTasks();
-//     const taskIndex = tasks.findIndex(t => t.id === req.params.id);
-//     if (taskIndex === -1) {
-//         return res.status(404).json({ message: 'Task not found' });
-//     }
-//     tasks[taskIndex] = {
-//         ...tasks[taskIndex],
-//         ...req.body,
-//         updated_at: new Date().toISOString()
-//     };
-//     writeTasks(tasks);
-//     res.json(tasks[taskIndex]);
-// };
+  // task.title = req.body.title || task.title;
+  // task.description = req.body.description || task.description;
+  // task.status = req.body.status || task.status;
+  // task.priority = req.body.priority || task.priority;
+  // task.updatedAt = new Date().toISOString();
 

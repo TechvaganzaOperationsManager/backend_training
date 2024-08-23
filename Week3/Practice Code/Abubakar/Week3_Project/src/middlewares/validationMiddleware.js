@@ -1,26 +1,21 @@
 export const validateTask = (req, res, next) => {
-    const { title , description , status, priority } = req.body;
+    const {status, priority, title, description} = req.body;
 
-    const validStatuses = ['pending', 'in-progress', 'completed'];
-    if (status && !validStatuses.includes(status)) {
-        return res.status(400).json({ error: 'Invalid status value' });
-    }
-   
-    const validatePriority = ['low', 'medium', 'high'];
-    if (priority && !validatePriority.includes(priority)) {
-        return res.status(400).json({ error: 'Invalid priority value' });
+    if (status !== undefined && !['pending', 'in-progress', 'completed'].includes(status)) {
+        return res.status(400).json({ msg: 'Invalid status' });
     }
 
-    if (typeof title !== 'string') {
+    if (priority !== undefined && !['low', 'medium', 'high'].includes(priority)) {
+        return res.status(400).json({ msg: 'Invalid priority' });
+    }
+    if (typeof title !== 'string' && title !== undefined) {
         return res.status(400).json({ message: 'Invalid title' });
     }
     
-    if (typeof description !== 'string') {
+    if (typeof description !== 'string' && description !== undefined) {
         return res.status(400).json({ message: 'Invalid description' });
     }
     
-
-
     next();
 };
 
