@@ -27,6 +27,11 @@ const writeTasks = (tasks) => {
 export const getAllTasks = (req, res) => {
   try {
     const tasks = readTasks();
+
+    if (!tasks) {
+      return res.status(404).send({ message: 'No tasks found' });
+    }
+
     res.send(tasks);
   } catch (error) {
     res.status(500).send({ error: error.message });
@@ -42,12 +47,15 @@ export const getAllTasks = (req, res) => {
   // console.log(tasks.map(e=>e.id), req.params.id);
   const taskId = Number(req.params.id);
   const task = tasks.find(t => t.id === taskId);
-  console.log(task)
+
+  if(!task) {
+    return res.status(404).json({msg : `Task with ID ${taskId} was not found`});
+  }
+
   res.send(task);
     } catch (error) {
       res.status(500).send({ error: error.message });
     }
-  
   }
 
  // Delete Task By Id
@@ -55,10 +63,18 @@ export const getAllTasks = (req, res) => {
     try {
       const tasks = readTasks();
       const taskId = Number(req.params.id);
+      const task = tasks.find(t => t.id === taskId);
+
+      if(!task) {
+        return res
+        .status(404)
+        .json({msg : `Task with ID ${taskId} does not Exist. Plz Enter a Valid Id to Delete`});
+      }
+      
       // console.log(taskId, "taskId")
       // const task = tasks.find(t => t.id === taskId);
       const filteredTask  = tasks.filter(t => t.id !==taskId);
-       writeTasks(filteredTask);
+      writeTasks(filteredTask);
        return res.send(filteredTask);
     } catch (error) {
       res.status(500).send({ error: error.message });
@@ -90,56 +106,33 @@ export const getAllTasks = (req, res) => {
   };
   
   // Update Task By Id
-  export const updateTask = (req ,res) => {
+  export const updateTask = (req, res) => {
     const tasks = readTasks();
     const updateTaskId = Number(req.params.id);
     let task = tasks.find(t => t.id === updateTaskId);
-    // If Id is Invalid
-    // If No Task Found 
-    
-    if(!task) {
-      return res
-      .status(404)
-      .json({msg : `A task By this ${updateTaskId} was not Found`});
+
+    if (!task) {
+    return res
+    .status(404)
+    .json({ msg: `Task with this ID ${updateTaskId} does not exist. Please enter a valid ID to update.` });
     }
 
-    // task.title = req.body.title || task.title;
-    // task.description = req.body.description || task.description;
-    // task.status = req.body.status || task.status;
-    // task.priority = req.body.priority || task.priority;
+   
+    task.title = req.body.title || task.title;
+    task.description = req.body.description || task.description;
+    task.status = req.body.status || task.status;
+    task.priority = req.body.priority || task.priority;
+    task.assigned_to = req.body.assigned_to || task.assigned_to;
 
-    /* {
-        title: "Lucifer",
-        created_at: "2024-08-22T14:27:57.980Z",
-    } */
 
-    task = { ...task, ...req.body, id: task.id };
-
+//  task = { ...task, ...req.body, id: task.id };
     task.updated_at = new Date().toISOString();
-  
-    writeTasks (tasks);
-    return res.send(task)
-  }
-
-
-
-
-
-
-
-  //   export const sendMessage = (req , res) => {
-//     res.send('Hello This is me');
-// };
-
-  // export const getMessage = (req, res) => {
-  //   const data = fs.readFileSync(definePath , 'utf8')
-  //   const jsonData = JSON.parse(data);
-  // }
- 
-
-  // task.title = req.body.title || task.title;
-  // task.description = req.body.description || task.description;
-  // task.status = req.body.status || task.status;
-  // task.priority = req.body.priority || task.priority;
-  // task.updatedAt = new Date().toISOString();
-
+    
+    try {
+        writeTasks(tasks);
+        return res.send(task);
+    } catch (error) {
+        console.error('Error writing tasks to file:', error);
+        return res.status(500).json({ msg: 'Error updating task' });
+    }
+};

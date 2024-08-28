@@ -5,8 +5,6 @@ import { Router } from 'express';
 import { getAllTasks, TaskById , deleteTaskById , createTask , updateTask} from '../controllers/taskController.js';
 import { validateTask } from '../middlewares/validationMiddleware.js';
 
-
-
 const router = Router();    
 
 //router.post('/send-message', sendMessage);
@@ -16,9 +14,6 @@ router.get('/:id', TaskById);
 router.post('/', validateTask, createTask);
 router.put('/:id' , validateTask , updateTask);
 router.delete('/:id' , deleteTaskById);
-
-
-
 
 export default router;
 
