@@ -24,7 +24,7 @@ const writeTasks = (tasks) => {
 };
 
 //Get All Tasks
-export const getAllTasks = (req, res) => {
+export const getAllTasks = (req ,  res) => {
   try {
     const tasks = readTasks();
 
