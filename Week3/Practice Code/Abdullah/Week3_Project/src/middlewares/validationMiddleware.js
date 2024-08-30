@@ -1,42 +1,34 @@
-import express from 'express';
+export const validatorTask = (req, res, next) => {
+    const { title, description, status, priority } = req.body;
 
-export const validatorTask =  ( req , res , next ) => {
-    const { title,description , status , priority } = req.body
+    if ( title === undefined){
+        return res.status(400).json({msg : "title is required"})
+    }
+    if (typeof title !== "string") {
+        return res.status(400).json({ message: "Title must be a string" });
+    }
+    if(description === undefined){
+        return res.status(404).json({message: "Description is required"})
+    }
+    if (typeof description !== 'string') {
+        return res.status(400).json({ message: 'Description must be a string' });
+    }
 
-    
-if( typeof title!=='string'){
-    return res.status(404).json({message:'title must be a string'})
-}
-if( typeof description!=='string'){
-    return res.status(404).json({message:'description must be a string'})
-}
-const validstatus = ['pending','in-progress','complete']
-if(status && !validstatus.includes(status)){
-    return res.status(404).json({message:'imvalid status must be'})
-}
+    const validStatus = ['pending', 'in-progress', 'complete'];
+    if(validStatus===undefined){
+        res.status(400).json({ message: 'staus is required' });
+    }
+    if (status && !validStatus.includes(status)) {
+        return res.status(400).json({ message: 'Invalid status. Must be one of: pending, in-progress, complete' });
+    }
 
-const validpirority=['low ', 'medium', 'high']
-if(priority && !validpirority.includes(priority)){
-    
-return  res.status(404).json({message:'invalid priority must be'})
+    const validPriority = ['low', 'medium', 'high'];
+    if(priority===undefined){
+        res.status(400).json({ message: 'priority is required' });
+    }
+    if (priority && !validPriority.includes(priority)) {
+        return res.status(400).json({ message: 'Invalid priority. Must be one of: low, medium, high' });
+    }
 
-}
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+    next(); // If all checks pass, proceed to the next middleware or route handler
+};
