@@ -1,21 +1,23 @@
-import express from 'express';
 import { Router } from 'express';
 //import {sendMessage} from '../controllers/taskController.js'
 //import {getMessage} from '../controllers/taskController.js';
-import { getAllTasks, TaskById , deleteTaskById , createTask , updateTask} from '../controllers/taskController.js';
-import { validateTask } from '../middlewares/validationMiddleware.js';
+import { getAllTasks, taskById , deleteTaskById , createTask , updateTask} from '../controllers/taskController.js';
+import { updatTaskValidator, validateTask } from '../middlewares/validationMiddleware.js';
 
 const router = Router();    
+
 
 //router.post('/send-message', sendMessage);
 //router.get('/message' , getMessage);
 router.get('/', getAllTasks);
-router.get('/:id', TaskById);
+router.get('/:id', taskById);
 router.post('/', validateTask, createTask);
-router.put('/:id' , validateTask , updateTask);
+router.put('/:id' , updatTaskValidator , updateTask);
 router.delete('/:id' , deleteTaskById);
 
 export default router;
+
+
 
 
 

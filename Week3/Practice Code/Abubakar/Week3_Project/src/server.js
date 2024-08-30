@@ -15,20 +15,23 @@
 // BONUS TASK: (Do it at the end for practice) register Error handling middleware
 
 import express from 'express';
-import taskRoutes from './routes/taskRoutes.js';
-import errorHandler from './errors/errorHandler.js';
+//import errorHandler from './errors/errorHandler.js';
+import allRoutes from './routes/index.js';
 
 const app = express();
 
 const PORT =  3000;
 
 app.use(express.json());
-app.use('/api/tasks', taskRoutes);
-app.use(errorHandler);
+//app.use(errorHandler);
+app.use('/api', allRoutes);
 
+
+// Error Route
+app.use('/*', (req, res)=>{
+  res.status(404).send({ msg: "Route Not Found" });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-

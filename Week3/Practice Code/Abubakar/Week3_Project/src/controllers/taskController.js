@@ -39,7 +39,7 @@ export const getAllTasks = (req ,  res) => {
 };
   
   // Get Task By Id
-  export const TaskById = (req , res) => {
+  export const taskById = (req , res) => {
     try {
       const tasks = readTasks();
   // console.log(req.params.id);
@@ -73,9 +73,9 @@ export const getAllTasks = (req ,  res) => {
       
       // console.log(taskId, "taskId")
       // const task = tasks.find(t => t.id === taskId);
-      const filteredTask  = tasks.filter(t => t.id !==taskId);
-      writeTasks(filteredTask);
-       return res.send(filteredTask);
+      const filteredTasks  = tasks.filter(t => t.id !==taskId);
+      writeTasks(filteredTasks);
+       return res.send(filteredTasks);
     } catch (error) {
       res.status(500).send({ error: error.message });
     }
@@ -85,9 +85,13 @@ export const getAllTasks = (req ,  res) => {
     export const createTask = (req, res) => {
      try {
         const tasks = readTasks();
+
+        const maxId = tasks.reduce((max, task) => task.id > max ? task.id : max, 0);
+        
         const newTask = {
             //id: uuidv4(),
-            id :req.body.id,
+            //id :req.body.id,
+            id : maxId + 1,
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
@@ -103,6 +107,7 @@ export const getAllTasks = (req ,  res) => {
       } catch (error) {
         res.status(500).send({ error: error.message });
       }
+      
   };
   
   // Update Task By Id
@@ -117,22 +122,22 @@ export const getAllTasks = (req ,  res) => {
     .json({ msg: `Task with this ID ${updateTaskId} does not exist. Please enter a valid ID to update.` });
     }
 
-   
     task.title = req.body.title || task.title;
     task.description = req.body.description || task.description;
     task.status = req.body.status || task.status;
     task.priority = req.body.priority || task.priority;
     task.assigned_to = req.body.assigned_to || task.assigned_to;
-
-
-//  task = { ...task, ...req.body, id: task.id };
     task.updated_at = new Date().toISOString();
+    
+    //  task = { ...task, ...req.body, id: task.id };
     
     try {
         writeTasks(tasks);
         return res.send(task);
     } catch (error) {
-        console.error('Error writing tasks to file:', error);
+      console.error('Error writing tasks to file:', error);
         return res.status(500).json({ msg: 'Error updating task' });
     }
-};
+  };
+
+  
