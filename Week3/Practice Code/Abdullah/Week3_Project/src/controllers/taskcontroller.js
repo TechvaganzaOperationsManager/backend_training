@@ -25,7 +25,7 @@ throw new Error ("Error writing")
 
 export const getTasks = ( req, res) => {
     try {
-        let  tasks = readTask()
+        let tasks = readTask()
         return res.send(tasks);
     } catch (error) {
     return res.status(500).send({ message: error.message})     
@@ -52,7 +52,7 @@ if (!task) {
 export const delTaskById = (req, res) => {
 try {
     const tasks = readTask();
-    const  taskId = Number(req.params.id);
+    const taskId = Number(req.params.id);
     const task = tasks.find(t => t.id === taskId);
     if(!task){
         return res.status(404).send({message:` task with id ${taskId} not found `})
@@ -67,18 +67,18 @@ try {
 export const createTask = (req, res) => {
     try {
         const tasks = readTask(); 
-        const newtasks = {   
+        const newtask = {   
             id: tasks.length + 1,
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
             priority: req.body.priority,
             created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString  (),
+            updated_at: new Date().toISOString(),
             due_date: req.body.due_date,
             assigned_to: req.body.assigned_to
-        }; 
-        tasks.push(newtasks); 
+        };
+        tasks.push(newtask); 
         writeTask(tasks); 
         return res.send(tasks); 
     } catch (error) {
@@ -92,22 +92,22 @@ export const updateTask = (req, res) => {
         const tasks = readTask(); 
         const updateTaskId = Number(req.params.id); 
         const task = tasks.find(t => t.id === updateTaskId); 
+        
         if (!task) {
             return res.status(404).send({ message: "Task not found" });
         }
+
         task.title = req.body.title || task.title;
         task.description = req.body.description || task.description;
         task.status = req.body.status || task.status;
         task.priority = req.body.priority || task.priority;
-        task.assigned_to=req.body.assigned_to || task.assigned_to;  
-        task.created_at = new Date ().toISOString()|| task.created_at;
-        task.updated_at = new Date().toISOString() || task.updated_at;
+        task.assigned_to = req.body.assigned_to || task.assigned_to;
         task.due_date = req.body.due_date || task.due_date;
-        writeTask(tasks); 
+        task.updated_at = new Date().toISOString();
+        
+        writeTask(tasks);   
         return res.send(task);
     } catch (error) {
         console.error(error);
-        return res.status(500).send({ message: error.message}); 
-    }
-};
-
+        return res.status(500).send({ message: error.message }); 
+    }};

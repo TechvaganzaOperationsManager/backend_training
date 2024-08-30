@@ -30,5 +30,30 @@ export const validatorTask = (req, res, next) => {
         return res.status(400).json({ message: 'Invalid priority. Must be one of: low, medium, high' });
     }
 
+    next(); 
+};
+
+
+ export const  updateValidatuion = (req, res, next) => {
+    const { title, description, status, priority } = req.body;
+    if (typeof title !== "string") {
+        return res.status(400).json({ message: "Title must be a string" });
+    }
+    if (description !== undefined && typeof description !== 'string') {
+        return res.status(400).json({ message: 'Description must be a string' });
+    }
+    const validStatus = ['pending', 'in-progress', 'complete'];
+    if(validStatus===undefined){
+        res.status(400).json({ message: 'staus is required' });
+    }
+    if (status && !validStatus.includes(status)) {
+        return res.status(400).json({ message: 'Invalid status. Must be one of: pending, in-progress, complete' });
+    }
+    const validPriority = ['low', 'medium', 'high'];
+    if (priority !== undefined && !validPriority.includes(priority)) {
+        return res.status(400).json({ message: 'Invalid priority. Must be one of: low, medium, high' });
+    }
+
     next(); // If all checks pass, proceed to the next middleware or route handler
 };
+
