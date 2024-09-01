@@ -36,7 +36,7 @@ export const validatorTask = (req, res, next) => {
 
  export const  updateValidatuion = (req, res, next) => {
     const { title, description, status, priority } = req.body;
-    if (typeof title !== "string") {
+    if (typeof title !== "string" && title  !== undefined) {
         return res.status(400).json({ message: "Title must be a string" });
     }
     if (description !== undefined && typeof description !== 'string') {
