@@ -111,33 +111,34 @@ export const getAllTasks = (req ,  res) => {
   };
   
   // Update Task By Id
-  export const updateTask = (req, res) => {
-    const tasks = readTasks();
-    const updateTaskId = Number(req.params.id);
-    let task = tasks.find(t => t.id === updateTaskId);
+    export const updateTask = (req, res) => {
+      try {
+        const tasks = readTasks();
+      const updateTaskId = Number(req.params.id);
+      let task = tasks.find(t => t.id === updateTaskId);
 
-    if (!task) {
-    return res
-    .status(404)
-    .json({ msg: `Task with this ID ${updateTaskId} does not exist. Please enter a valid ID to update.` });
-    }
+      if (!task) {
+      return res
+      .status(404)
+      .json({ msg: `Task with this ID ${updateTaskId} does not exist. Please enter a valid ID to update.` });
+      }
 
-    task.title = req.body.title || task.title;
-    task.description = req.body.description || task.description;
-    task.status = req.body.status || task.status;
-    task.priority = req.body.priority || task.priority;
-    task.assigned_to = req.body.assigned_to || task.assigned_to;
-    task.updated_at = new Date().toISOString();
-    
-    //  task = { ...task, ...req.body, id: task.id };
-    
-    try {
-        writeTasks(tasks);
-        return res.send(task);
-    } catch (error) {
-      console.error('Error writing tasks to file:', error);
-        return res.status(500).json({ msg: 'Error updating task' });
-    }
-  };
+      task.title = req.body.title || task.title;
+      task.description = req.body.description || task.description;
+      task.status = req.body.status || task.status;
+      task.priority = req.body.priority || task.priority;
+      task.assigned_to = req.body.assigned_to || task.assigned_to;
+      task.updated_at = new Date().toISOString();
+      task.due_date = req.body.due_date || task.due_date; 
+      
+      //  task = { ...task, ...req.body, id: task.id };
+      
+          writeTasks(tasks);
+          return res.send(task);
+      } catch (error) {
+        console.error('Error updating task:', error);
+        return res.status(500).json({ msg: 'An error occurred while updating the task.' });
+      }
+    };
 
   
